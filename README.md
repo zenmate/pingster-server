@@ -1,6 +1,6 @@
 # ZenMate Pingster Server
 
-> Server for our new awesome url dependency checker tool.
+> Server that drives url dependency checker tool for GitHub organizations.
 
 ## Usage
 
@@ -15,10 +15,10 @@ npm run watch
 
 ## Endpoints
 
-`GET /auth/github` - login user with GitHub OAuth flow
-`GET /auth/github/callback` - GitHub OAuth callback URL
-`GET /list` _(requires GitHub user authorization)_ - list last run repositories test results
-`POST /rescan` _(requires GitHub user authorization)_ - force rescan of the repositories and re-run the tests 
+- `GET /auth/github` - login user with GitHub OAuth flow
+- `GET /auth/github/callback` - GitHub OAuth callback URL
+- `GET /list` _(requires GitHub user authorization)_ - list last run repositories test results
+- `POST /rescan` _(requires GitHub user authorization)_ - force rescan of the repositories and re-run the tests 
 
 ## Configuration
 
