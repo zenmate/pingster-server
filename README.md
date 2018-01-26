@@ -1,6 +1,6 @@
 # ZenMate Pingster Server
 
-> Server-side of new awesome url dependency checker tool. C
+> Server for our new awesome url dependency checker tool.
 
 ## Usage
 
