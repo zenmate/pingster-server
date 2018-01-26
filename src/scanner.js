@@ -24,8 +24,10 @@ function scan (token) {
               .getRepo(github.org, o.name)
               .getContents(o.default_branch, 'pingster.yml')
               .then(repo => {
-                console.log('found', repo.data);
-                done(null, repo.data);
+                const ymlString = Buffer.from(repo.data.content, 'base64');
+                console.log('found', repo.data, ymlString);
+
+                done(null, repo.data, ymlString);
               })
               .catch(err => {
                 // if file's missing just fail silently
