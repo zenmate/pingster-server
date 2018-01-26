@@ -2,7 +2,7 @@ module.exports = {
   port: process.env.NODE_PORT || process.env.PORT || 1985,
 
   scanInterval: 1000 * 60 * 60, // (1 hour)
-  scanOnServerStart: false,
+  scanOnServerStart: true,
   scanPersistenDriver: 'memory',
 
   github: {
