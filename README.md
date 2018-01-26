@@ -10,7 +10,7 @@ Clone this repository and create your own instance of Pingster server:
 npm install
 npm start
 # or (for development)
-npm watch
+npm run watch
 ```
 
 ---

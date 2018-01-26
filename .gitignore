@@ -2,3 +2,5 @@
 *.log
 *.map
 node_modules
+
+bin/runSecureEnvs.js
