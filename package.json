@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "append-query": "^2.0.1",
+    "async": "^2.6.0",
     "c0nfig": "^0.2.2",
     "compression": "^1.7.1",
     "cookie-parser": "^1.4.3",

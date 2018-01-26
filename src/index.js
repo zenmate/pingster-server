@@ -1,12 +1,14 @@
 const cors = require('cors');
 const logger = require('morgan');
 const express = require('express');
-const { port, env } = require('c0nfig');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
 
+const { port, env, github } = require('c0nfig');
+
 const auth = require('./auth');
 const errors = require('./errors');
+const scanner = require('./scanner');
 
 const app = express();
 
@@ -44,13 +46,26 @@ app.get('/list', (req, res) => {
     }]
   });
 });
-app.post('/rescan', (req, res) => {
-  res.sendStatus(204);
+
+app.post('/rescan', (req, res, next) => {
+  scanner.scan(github.personallAccessToken)
+    .then(() => {
+      res.sendStatus(204);
+    })
+    .catch(err => {
+      next(err);
+    });
 });
 
 app.use(errors.handleNotFound);
 app.use(errors.handleErrors);
 
-app.listen(port, () => {
-  console.log(`api is listening on http://localhost:${port} env=${env}`);
-});
+scanner.scan(github.personalAccessToken)
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`api is listening on http://localhost:${port} env=${env}`);
+    });
+  })
+  .catch(err => {
+    console.error(`cannot start api http://localhost:${port} env=${env} due to error:`, err);
+  });

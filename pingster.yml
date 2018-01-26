@@ -1,0 +1,8 @@
+httpbin:
+  url: https://httpbin.org/get?hello=world
+  expect:
+    status: 200
+    data:
+      url: https://httpbin.org/get?hello=world
+    headers:
+      content-type: application/json
