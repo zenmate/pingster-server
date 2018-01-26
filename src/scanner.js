@@ -46,7 +46,7 @@ function scan (token) {
 
                 pingsterCore.tester(parsedConfig)
                   .then(testResults => {
-                    const hasErrorTest = testResults.find(r => !r.result);
+                    const hasErrorTest = testResults.find(r => !r.success);
                     const projectData = {
                       url: repo.html_url,
                       name: repo.name,
