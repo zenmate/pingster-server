@@ -28,24 +28,11 @@ app.use(cookieParser());
 
 app.use('/ping', (req, res) => res.send('pong ^.^'));
 app.use('/auth', auth());
-
-// mock api for now
-app.get('/list', (req, res) => {
-  res.json(scanner.list());
-});
-
-app.get('/next-scan', (req, res, next) => {
-
-});
-
+app.get('/list', (req, res) => res.json(scanner.list()));
 app.post('/rescan', (req, res, next) => {
   scanner.scan(github.personalAccessToken)
-    .then(() => {
-      res.sendStatus(204);
-    })
-    .catch(err => {
-      next(err);
-    });
+    .then(() => res.sendStatus(204))
+    .catch(err => next(err));
 });
 
 app.use(errors.handleNotFound);

@@ -90,7 +90,12 @@ function scan (token) {
           // filter out repos without pingster
           repos = repos.filter(r => r);
 
-          const data = { lastRunAt, repos };
+          const nextRunAt = lastRunAt + scanInterval;
+          const data = {
+            repos,
+            lastRunAt,
+            nextRunAt
+          };
 
           cacheDriver.set(data);
           resolve(data);
@@ -106,18 +111,13 @@ function list () {
   const data = cacheDriver.get();
 
   if (!data) {
-    return {lastRunAt, repos: []};
+    return {repos: []};
   }
 
   return data;
 }
 
-function time () {
-  // body...
-}
-
 module.exports = {
   scan,
-  list,
-  time
+  list
 };
