@@ -22,7 +22,7 @@ npm run watch
 
 ## Configuration
 
-Most of the options are self-descriptive, you can also extend it with your own if you plan to update the server somehow ([c0nfig](https://github.com/voronianski/c0nfig) module is used here):
+Most of the options are self-descriptive, you can also extend it with your own if you plan to update the server (powered by [c0nfig](https://github.com/voronianski/c0nfig)):
 
 ```js
 module.exports = {
@@ -47,15 +47,19 @@ module.exports = {
 };
 ```
 
+You can create as many config files as you have Node.js environments, just follow this simple file name rule - `{NODE_ENV}.config.js`.
+
 ## Scanner Authorization
 
-Repository scanner uses [GitHub OAuth non-web application flow](https://developer.github.com/apps/building-oauth-apps/authorization-options-for-oauth-apps/#non-web-application-flow) which means that you can simply create a personal token of the user that has access to organization here - https://github.com/settings/tokens.
+Repository scanner uses [GitHub OAuth non-web application flow](https://developer.github.com/apps/building-oauth-apps/authorization-options-for-oauth-apps/#non-web-application-flow) which means that you can simply create a personal token of the user that has access to organization here - https://github.com/settings/tokens and add it to proper configuration file.
 
 ## User Authorization 
 
-Firstly in order to authorize a user you need to register a new GitHub OAuth application here - https://github.com/settings/applications/new. Please provide `Authorization callback URL` which in our case will be - `https://your.domain/auth/github/callback`.
+Firstly in order to authorize a user you need to register a new GitHub OAuth application here - https://github.com/settings/applications/new. 
 
-User needs to open `https://your.domain/auth/github` in the browser and go with the flow. There's optional `redirect_uri` param which will be used to redirect the user:
+Please provide `Authorization callback URL` which in our case will be - `https://your.domain/auth/github/callback`.
+
+User needs to open `https://your.domain/auth/github` in the browser and go with GitHub OAuth flow. There's optional `redirect_uri` param which will be used to redirect the user:
 
 ```js
 'https://your.domain/auth/github?redirect_uri=https://your.domain2/application'
@@ -64,7 +68,7 @@ User needs to open `https://your.domain/auth/github` in the browser and go with 
 'https://your.domain2/application?access_token=ca9d891fa4bdf7ae5039e689c26370a192422541'
 ```
 
-if param is not provided, JSON response will be provided:
+If param is not provided, JSON response will be provided:
 
 ```json
 {"access_token": "ca9d891fa4bdf7ae5039e689c26370a192422541"}
