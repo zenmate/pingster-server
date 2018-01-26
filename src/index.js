@@ -60,12 +60,12 @@ app.post('/rescan', (req, res, next) => {
 app.use(errors.handleNotFound);
 app.use(errors.handleErrors);
 
-scanner.scan(github.personalAccessToken)
-  .then(() => {
+// scanner.scan(github.personalAccessToken)
+  // .then(() => {
     app.listen(port, () => {
       console.log(`api is listening on http://localhost:${port} env=${env}`);
     });
-  })
-  .catch(err => {
-    console.error(`cannot start api http://localhost:${port} env=${env} due to error:`, err);
-  });
+  // })
+  // .catch(err => {
+    // console.error(`cannot start api http://localhost:${port} env=${env} due to error:`, err);
+  // });
