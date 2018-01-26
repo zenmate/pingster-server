@@ -46,6 +46,7 @@ function scan (token) {
 
                 pingsterCore.tester(parsedConfig)
                   .then(testResults => {
+                    const hasErrorTest = testResults.find(r => !r.result);
                     const projectData = {
                       url: repo.html_url,
                       name: repo.name,
@@ -58,6 +59,7 @@ function scan (token) {
                       defaultBranch: repo.default_branch,
                       updatedAt: new Date(repo.updated_at).getTime(),
                       pingsterConfig: parsedConfig,
+                      status: hasErrorTest ? 'ERROR' : 'SUCCESS',
                       testResults
                     };
 

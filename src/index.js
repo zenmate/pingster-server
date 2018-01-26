@@ -32,25 +32,6 @@ app.use('/auth', auth());
 // mock api for now
 app.get('/list', (req, res) => {
   res.json(scanner.list());
-  // res.json({
-  //   lastRunAt: 1516971192249,
-  //   projects: [{
-  //     repo: 'https://github.com/zenmate/zenadmin',
-  //     name: 'zenadmin',
-  //     status: 'SUCCESS',
-  //     updatedAt: 1510151900021
-  //   }, {
-  //     repo: 'https://github.com/zenmate/websites',
-  //     name: 'websites',
-  //     status: 'SUCCESS',
-  //     updatedAt: 1508517530181
-  //   }, {
-  //     repo: 'https://github.com/zenmate/crm-crud-api',
-  //     name: 'crm-crud-api',
-  //     status: 'ERROR',
-  //     updatedAt: 1506095673353
-  //   }]
-  // });
 });
 
 app.get('/next-scan', (req, res, next) => {
@@ -59,8 +40,7 @@ app.get('/next-scan', (req, res, next) => {
 
 app.post('/rescan', (req, res, next) => {
   scanner.scan(github.personalAccessToken)
-    .then(data => {
-      console.log(data);
+    .then(() => {
       res.sendStatus(204);
     })
     .catch(err => {
@@ -73,8 +53,7 @@ app.use(errors.handleErrors);
 
 if (scanOnServerStart) {
   scanner.scan(github.personalAccessToken)
-    .then(data => {
-      console.log(data);
+    .then(() => {
       startServer();
     })
     .catch(err => {
