@@ -14,6 +14,7 @@ const {
 const auth = require('./auth');
 const errors = require('./errors');
 const scanner = require('./scanner');
+const validateAccessToken = require('./validateAccessToken');
 
 const app = express();
 
@@ -27,14 +28,25 @@ app.use(compression());
 app.use(cookieParser());
 
 app.use('/ping', (req, res) => res.send('pong ^.^'));
-app.use('/auth', auth());
-app.get('/list', (req, res) => res.json(scanner.list()));
-app.post('/rescan', (req, res, next) => {
-  scanner.scan(github.personalAccessToken)
-    .then(() => res.sendStatus(204))
-    .catch(err => next(err));
-});
 
+// authorization
+app.use('/auth', auth());
+
+// list repos and force rescan
+app.get('/list',
+  validateAccessToken,
+  (req, res) => res.json(scanner.list())
+);
+app.post('/rescan',
+  validateAccessToken,
+  (req, res, next) => {
+    scanner.scan(github.personalAccessToken)
+      .then(() => res.sendStatus(204))
+      .catch(err => next(err));
+  }
+);
+
+// handle errors
 app.use(errors.handleNotFound);
 app.use(errors.handleErrors);
 
