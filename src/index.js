@@ -4,7 +4,12 @@ const express = require('express');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
 
-const { port, env, github } = require('c0nfig');
+const {
+  env,
+  port,
+  github,
+  scanOnServerStart
+} = require('c0nfig');
 
 const auth = require('./auth');
 const errors = require('./errors');
@@ -26,46 +31,61 @@ app.use('/auth', auth());
 
 // mock api for now
 app.get('/list', (req, res) => {
-  res.json({
-    lastRunAt: 1516971192249,
-    projects: [{
-      repo: 'https://github.com/zenmate/zenadmin',
-      name: 'zenadmin',
-      status: 'SUCCESS',
-      updatedAt: 1510151900021
-    }, {
-      repo: 'https://github.com/zenmate/websites',
-      name: 'websites',
-      status: 'SUCCESS',
-      updatedAt: 1508517530181
-    }, {
-      repo: 'https://github.com/zenmate/crm-crud-api',
-      name: 'crm-crud-api',
-      status: 'ERROR',
-      updatedAt: 1506095673353
-    }]
-  });
+  res.json(scanner.list());
+  // res.json({
+  //   lastRunAt: 1516971192249,
+  //   projects: [{
+  //     repo: 'https://github.com/zenmate/zenadmin',
+  //     name: 'zenadmin',
+  //     status: 'SUCCESS',
+  //     updatedAt: 1510151900021
+  //   }, {
+  //     repo: 'https://github.com/zenmate/websites',
+  //     name: 'websites',
+  //     status: 'SUCCESS',
+  //     updatedAt: 1508517530181
+  //   }, {
+  //     repo: 'https://github.com/zenmate/crm-crud-api',
+  //     name: 'crm-crud-api',
+  //     status: 'ERROR',
+  //     updatedAt: 1506095673353
+  //   }]
+  // });
+});
+
+app.get('/next-scan', (req, res, next) => {
+
 });
 
 app.post('/rescan', (req, res, next) => {
-  // scanner.scan(github.personallAccessToken)
-    // .then(() => {
+  scanner.scan(github.personalAccessToken)
+    .then(data => {
+      console.log(data);
       res.sendStatus(204);
-    // })
-    // .catch(err => {
-      // next(err);
-    // });
+    })
+    .catch(err => {
+      next(err);
+    });
 });
 
 app.use(errors.handleNotFound);
 app.use(errors.handleErrors);
 
-// scanner.scan(github.personalAccessToken)
-//   .then(() => {
-    app.listen(port, () => {
-      console.log(`api is listening on http://localhost:${port} env=${env}`);
+if (scanOnServerStart) {
+  scanner.scan(github.personalAccessToken)
+    .then(data => {
+      console.log(data);
+      startServer();
+    })
+    .catch(err => {
+      console.error(`cannot start api http://localhost:${port} env=${env} due to error:`, err);
     });
-  // })
-  // .catch(err => {
-  //   console.error(`cannot start api http://localhost:${port} env=${env} due to error:`, err);
-  // });
+} else {
+  startServer();
+}
+
+function startServer () {
+  app.listen(port, () => {
+    console.log(`api is listening on http://localhost:${port} env=${env}`);
+  });
+}

@@ -1,6 +1,10 @@
 module.exports = {
   port: process.env.NODE_PORT || process.env.PORT || 1985,
 
+  scanInterval: 1000 * 60 * 60, // (1 hour)
+  scanOnServerStart: false,
+  scanPersistenDriver: 'memory',
+
   github: {
     // github organization to scan
     org: process.env.GITHUB_ORG,
