@@ -27,6 +27,7 @@
     "c0nfig": "^0.2.2",
     "compression": "^1.7.1",
     "cors": "^2.8.4",
+    "dynasty": "^0.3.8",
     "express": "^4.16.2",
     "morgan": "^1.9.0"
   },
