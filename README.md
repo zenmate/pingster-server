@@ -30,9 +30,9 @@ Here is example response from `GET /list` endpoint. It could be useful if you'd 
   // list of user/org repos with pingster config 
   "repos": [{
     // repo data provided by github
-    "url": "https://github.com/username/app-with-pingster",
+    "url": "https://github.com/user/app-with-pingster",
     "name": "app-with-pingster",
-    "fullName": "username/app-with-pingster",
+    "fullName": "user/app-with-pingster",
     "description": "App that has pingster config",
     "private": false,
     "stars": 2305,
