@@ -27,5 +27,11 @@ module.exports = {
     // only for `s3` scanPersistentDriver
     s3BucketName: process.env.S3_BUCKET_NAME,
     s3BucketKey: process.env.S3_BUCKET_KEY
+  },
+
+  // needed only in case you use 'mongodb' as scanPersistentDriver
+  mongodb: {
+    url: process.env.MONGODB_URL,
+    collection: process.env.MONGODB_COLLECTION
   }
 };
