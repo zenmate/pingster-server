@@ -1,7 +1,7 @@
 {
   "name": "@zenmate/pingster-server",
   "version": "1.0.1",
-  "description": "API and scheduled Pingster test runner for projects inside your GitHub organization.",
+  "description": "API and scheduled Pingster test runner for your GitHub projects.",
   "main": "./src/index.js",
   "scripts": {
     "start": "node ./src",
