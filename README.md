@@ -23,7 +23,7 @@ npm run watch
 
 #### List response example
 
-Here is example response that `GET /list` endpoint returns. It could be useful if you'd like to create your UI for showing the results (instead of [pingster-ui](https://github.com/zenmate/pingster-ui))
+Here is example response from `GET /list` endpoint. It could be useful if you'd like to create your own UI for showing test results (instead of [pingster-ui](user-interface))
 
 ```js
 {
@@ -84,7 +84,7 @@ Here is example response that `GET /list` endpoint returns. It could be useful i
 
 ## Configuration
 
-Most of the options are self-descriptive and you can also extend it with your own if you plan to update the server (configuration powered by [c0nfig](https://github.com/voronianski/c0nfig) module):
+Most of the options are self-descriptive (configuration is powered by [c0nfig](https://github.com/voronianski/c0nfig) module):
 
 ```js
 module.exports = {
@@ -138,7 +138,7 @@ If param is not provided, JSON response will be provided:
 {"access_token": "ca9d891fa4bdf7ae5039e689c26370a192422541"}
 ```
 
-You need to save `access_token` in browser's cookies or localStorage and pass it in all requests that require authentication as `x-access-token` header or `access_token` query param.
+You need to save `access_token` in browser's cookies or `localStorage` and pass it in all requests that require authentication as `x-access-token` header or `access_token` query param.
 
 ## Persistent Drivers
 
@@ -146,15 +146,17 @@ Pingster server comes with several built-in persistency drivers that will save t
 
 Though in most cases `'memory'` driver will be enough to make the app display correct data but you might want to consider other options as well:
 
-- `'memory'` - saves last test results in memory (after server restart data is lost until the next rescan)
+- `'memory'` - saves last test results in memory (after server restart data is lost until next rescan)
 - `'s3'` - saves last test results in [AWS S3](https://aws.amazon.com/s3) bucket as one JSON file which is get replaced on every run (you will need to provide `aws` configuration object in config file)
 - `'mongodb'` - saves last test results in [MongoDB](https://www.mongodb.com) collection as the only document which is get replaced on every run (you will need to provide `mongodb` configuration object in config file)
 
-More drivers to come but PRs are welcome!
+More drivers to come and PRs are welcome!
 
 ### Writing Your Own Driver
 
-You are free to write your own drivers in case you have specific requirements. Generally driver should conform to the simple `get/set` API and here is a boilerplate:
+You are free to write your own drivers in case you have some specific requirements. 
+
+Generally driver should conform to the simple `get/set` API and here is a boilerplate:
 
 ```js
 function get () {
@@ -175,6 +177,6 @@ module.exports = { get, set };
 
 ## User Interface
 
-There is also [pingster-ui](https://github.com/zenmate/pingster-ui) - single-page app writen in React.js that uses [pingser-server](#endpoints) to display test results in a beautiful UI.
+[Pingster UI](https://github.com/zenmate/pingster-ui) is a single-page app writen in React.js that uses [pingser-server](#endpoints) to display test results.
 
 ---
