@@ -1,6 +1,6 @@
 # Pingster Server
 
-> App that provides REST API and scheduled Pingster test runner for projects inside your GitHub organization.
+> API and scheduled Pingster test runner for projects inside your GitHub organization.
 
 ## Usage
 
