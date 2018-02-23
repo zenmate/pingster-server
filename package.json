@@ -1,11 +1,12 @@
 {
   "name": "@zenmate/pingster-server",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "App that provides REST API and scheduled Pingster test runner for projects inside your GitHub organization.",
   "main": "./src/index.js",
   "scripts": {
     "start": "node ./src",
     "watch": "nodemon ./src -w ./src -e js,json",
+    "start-secure": "node ./bin/runSecureEnvs",
     "watch-secure": "nodemon ./bin/runSecureEnvs -w ./src -e js,json",
     "lint": "eslint ./src",
     "test": "echo \"Error: no test specified\" && exit 0"
@@ -15,7 +16,7 @@
     "url": "git+https://github.com/zenmate/pingster-server.git"
   },
   "author": "ZenMate Team",
-  "license": "MIT",
+  "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/zenmate/pingster-server/issues"
   },

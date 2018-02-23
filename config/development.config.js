@@ -6,8 +6,9 @@ module.exports = {
   scanPersistenDriver: 'memory',
 
   github: {
-    // github organization to scan
-    org: process.env.GITHUB_ORG,
+    // github organization or user to scan
+    org: process.env.GITHUB_ORG, // higher priority
+    user: process.env.GITHUB_USER,
 
     // github user authentication
     clientId: process.env.GITHUB_CLIENT_ID,
