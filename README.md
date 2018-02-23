@@ -142,6 +142,22 @@ You need to save `access_token` in browser's cookies or localStorage and pass it
 
 ## Persistent Drivers
 
+Pingster server comes with several built-in persistency drivers that will save the results of your last test run in order to be able to show this data later. 
+
+Though in most cases `'memory'` driver will be enough to make the app display correct data, you might need to consider other options as well:
+
+- `'memory'`
+- `'s3'`
+- `'mongodb'`
+
+More to come, PRs are welcome!
+
+### Driver Configuration
+
+### Writing Your Own Driver
+
 ## User Interface
+
+
 
 ---

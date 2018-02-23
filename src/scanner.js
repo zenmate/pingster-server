@@ -5,10 +5,10 @@ const parallelLimit = require('async/parallelLimit');
 const {
   github,
   scanInterval,
-  scanPersistenDriver
+  scanPersistentDriver
 } = require('c0nfig');
 
-const cacheDriver = require(`./drivers/${scanPersistenDriver}`);
+const cacheDriver = require(`./drivers/${scanPersistentDriver}`);
 
 let timeout;
 let lastRunAt;

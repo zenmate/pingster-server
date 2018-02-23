@@ -3,7 +3,7 @@ module.exports = {
 
   scanInterval: 1000 * 60 * 60, // (1 hour)
   scanOnServerStart: true,
-  scanPersistenDriver: 's3',
+  scanPersistentDriver: 'memory',
 
   github: {
     // github organization or user to scan
@@ -19,13 +19,19 @@ module.exports = {
     personalAccessToken: process.env.GITHUB_PERSONAL_ACCESS_TOKEN
   },
 
-  // needed only in case you use 's3' or 'dynamodb' as scanPersistenDriver
+  // needed only in case you use 's3' or 'dynamodb' as scanPersistentDriver
   aws: {
     key: process.env.AWS_KEY,
     secret: process.env.AWS_SECRET,
 
-    // only for `s3` scanPersistenDriver
+    // only for `s3` scanPersistentDriver
     s3BucketName: process.env.S3_BUCKET_NAME,
     s3BucketKey: process.env.S3_BUCKET_KEY
+  },
+
+  // needed only in case you use 'mongodb' as scanPersistentDriver
+  mongodb: {
+    url: process.env.MONGODB_URL,
+    collection: process.env.MONGODB_COLLECTION
   }
 };

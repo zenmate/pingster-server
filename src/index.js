@@ -9,7 +9,7 @@ const {
   port,
   github,
   scanOnServerStart,
-  scanPersistenDriver
+  scanPersistentDriver
 } = require('c0nfig');
 
 const auth = require('./auth');
@@ -71,6 +71,6 @@ if (scanOnServerStart) {
 
 function startServer () {
   app.listen(port, () => {
-    console.log(`api is listening on http://localhost:${port} env=${env} driver=${scanPersistenDriver}`);
+    console.log(`api is listening on http://localhost:${port} env=${env} driver=${scanPersistentDriver}`);
   });
 }
