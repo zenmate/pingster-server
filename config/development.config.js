@@ -3,7 +3,7 @@ module.exports = {
 
   scanInterval: 1000 * 60 * 60, // (1 hour)
   scanOnServerStart: true,
-  scanPersistenDriver: 'memory',
+  scanPersistenDriver: 's3',
 
   github: {
     // github organization or user to scan
@@ -17,5 +17,15 @@ module.exports = {
     // organization scanner bot authentication
     // make sure your user-bot has proper access to org
     personalAccessToken: process.env.GITHUB_PERSONAL_ACCESS_TOKEN
+  },
+
+  // needed only in case you use 's3' or 'dynamodb' as scanPersistenDriver
+  aws: {
+    key: process.env.AWS_KEY,
+    secret: process.env.AWS_SECRET,
+
+    // only for `s3` scanPersistenDriver
+    s3BucketName: process.env.S3_BUCKET_NAME,
+    s3BucketKey: process.env.S3_BUCKET_KEY
   }
 };

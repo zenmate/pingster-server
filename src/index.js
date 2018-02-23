@@ -8,7 +8,8 @@ const {
   env,
   port,
   github,
-  scanOnServerStart
+  scanOnServerStart,
+  scanPersistenDriver
 } = require('c0nfig');
 
 const auth = require('./auth');
@@ -27,24 +28,30 @@ app.use(cors());
 app.use(compression());
 app.use(cookieParser());
 
-app.use('/ping', (req, res) => res.send('pong ^.^'));
+app.use('/ping', (req, res) => {
+  res.send('pong ^.^');
+});
 
 // authorization
 app.use('/auth', auth());
 
-// list repos and force rescan
+// list repos and test results
 app.get('/list',
   validateAccessToken,
-  (req, res) => res.json(scanner.list())
-);
+  (req, res, next) => {
+    scanner.list()
+      .then(data => res.json(data))
+      .catch(err => next(err));
+  });
+
+// force test rescan
 app.post('/rescan',
   validateAccessToken,
   (req, res, next) => {
     scanner.scan(github.personalAccessToken)
       .then(() => res.sendStatus(204))
       .catch(err => next(err));
-  }
-);
+  });
 
 // handle errors
 app.use(errors.handleNotFound);
@@ -64,6 +71,6 @@ if (scanOnServerStart) {
 
 function startServer () {
   app.listen(port, () => {
-    console.log(`api is listening on http://localhost:${port} env=${env}`);
+    console.log(`api is listening on http://localhost:${port} env=${env} driver=${scanPersistenDriver}`);
   });
 }

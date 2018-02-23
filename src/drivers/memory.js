@@ -7,7 +7,9 @@ const scanCache = new Cache({
 });
 
 function get () {
-  return scanCache.get(key);
+  return new Promise(resolve => {
+    resolve(scanCache.get(key));
+  });
 }
 
 function set (obj) {

@@ -7,6 +7,13 @@
     "es6": true
   },
 
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
+
   rules: {
     "strict": 0,
     "quotes": [2, "single"],

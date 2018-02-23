@@ -130,13 +130,15 @@ function scan (token) {
 }
 
 function list () {
-  const data = cacheDriver.get();
+  return cacheDriver
+    .get()
+    .then(data => {
+      if (!data) {
+        return {repos: []};
+      }
 
-  if (!data) {
-    return {repos: []};
-  }
-
-  return data;
+      return data;
+    });
 }
 
 module.exports = {
