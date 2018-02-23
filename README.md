@@ -134,7 +134,7 @@ User needs to open `https://your.domain/auth/github` in the browser and go with 
 
 If param is not provided, JSON response will be provided:
 
-```json
+```js
 {"access_token": "ca9d891fa4bdf7ae5039e689c26370a192422541"}
 ```
 
@@ -144,20 +144,37 @@ You need to save `access_token` in browser's cookies or localStorage and pass it
 
 Pingster server comes with several built-in persistency drivers that will save the results of your last test run in order to be able to show this data later. 
 
-Though in most cases `'memory'` driver will be enough to make the app display correct data, you might need to consider other options as well:
+Though in most cases `'memory'` driver will be enough to make the app display correct data but you might want to consider other options as well:
 
-- `'memory'`
-- `'s3'`
-- `'mongodb'`
+- `'memory'` - saves last test results in memory (after server restart data is lost until the next rescan)
+- `'s3'` - saves last test results in [AWS S3](https://aws.amazon.com/s3) bucket as one JSON file which is get replaced on every run (you will need to provide `aws` configuration object in config file)
+- `'mongodb'` - saves last test results in [MongoDB](https://www.mongodb.com) collection as the only document which is get replaced on every run (you will need to provide `mongodb` configuration object in config file)
 
-More to come, PRs are welcome!
-
-### Driver Configuration
+More drivers to come but PRs are welcome!
 
 ### Writing Your Own Driver
 
+You are free to write your own drivers in case you have specific requirements. Generally driver should conform to the simple `get/set` API and here is a boilerplate:
+
+```js
+function get () {
+  // `get` should always return a Promise
+  // even if you are doing sync operation
+  return new Promise((resolve, reject) => {
+
+  });
+}
+
+// `set` is not returning anything in any case
+function set (obj) {
+
+}
+
+module.exports = { get, set };
+```
+
 ## User Interface
 
-
+There is also [pingster-ui](https://github.com/zenmate/pingster-ui) - single-page app writen in React.js that uses [pingser-server](#endpoints) to display test results in a beautiful UI.
 
 ---

@@ -21,6 +21,7 @@ module.exports = {
 
   // needed only in case you use 's3' or 'dynamodb' as scanPersistentDriver
   aws: {
+    // aws authorization
     key: process.env.AWS_KEY,
     secret: process.env.AWS_SECRET,
 
