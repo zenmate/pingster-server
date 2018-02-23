@@ -25,7 +25,7 @@ npm run watch
 
 Here is example response that `GET /list` endpoint returns. It could be useful if you'd like to create your UI for showing the results (instead of [pingster-ui](https://github.com/zenmate/pingster-ui))
 
-```json
+```js
 {
   // list of user/org repos with pingster config 
   "repos": [{
