@@ -1,6 +1,6 @@
 {
   "name": "@zenmate/pingster-server",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "API and scheduled Pingster test runner for your GitHub projects.",
   "main": "./src/index.js",
   "scripts": {
@@ -35,10 +35,11 @@
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "github-api": "^3.0.0",
+    "lodash.intersectionby": "^4.7.0",
     "mongojs": "^2.5.0",
     "morgan": "^1.9.0",
     "node-cache": "^4.1.1",
-    "pingster": "^1.0.1",
+    "pingster": "^1.0.5",
     "superagent": "^3.8.2"
   },
   "devDependencies": {

@@ -7,15 +7,14 @@ const cookieParser = require('cookie-parser');
 const {
   env,
   port,
-  github,
   scanOnServerStart,
   scanPersistentDriver
 } = require('c0nfig');
 
 const auth = require('./auth');
-const errors = require('./errors');
 const scanner = require('./scanner');
-const validateAccessToken = require('./validateAccessToken');
+const errors = require('./middleware/errors');
+const checkUserToken = require('./middleware/checkUserToken');
 
 const app = express();
 
@@ -32,24 +31,29 @@ app.use('/ping', (req, res) => {
   res.send('pong ^.^');
 });
 
-// authorization
 app.use('/auth', auth());
 
-// list repos and test results
 app.get('/list',
-  validateAccessToken,
+  checkUserToken,
   (req, res, next) => {
-    scanner.list()
+    scanner.list(req.userAccessToken)
       .then(data => res.json(data))
       .catch(err => next(err));
   });
 
-// force test rescan
 app.post('/rescan',
-  validateAccessToken,
+  checkUserToken,
   (req, res, next) => {
-    scanner.scan(github.personalAccessToken)
-      .then(() => res.sendStatus(204))
+    scanner.list(req.userAccessToken)
+      .then(data => {
+        if (!data.repos.length) {
+          return next({status: 403, message: 'github user has no repos access'});
+        }
+
+        scanner.scan()
+          .then(() => res.sendStatus(204))
+          .catch(err => next(err));
+      })
       .catch(err => next(err));
   });
 
@@ -58,7 +62,7 @@ app.use(errors.handleNotFound);
 app.use(errors.handleErrors);
 
 if (scanOnServerStart) {
-  scanner.scan(github.personalAccessToken)
+  scanner.scan()
     .then(() => {
       startServer();
     })

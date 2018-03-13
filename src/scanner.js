@@ -1,59 +1,53 @@
 const GithubAPI = require('github-api');
 const pingsterCore = require('pingster');
 const parallelLimit = require('async/parallelLimit');
+const intersectionBy = require('lodash.intersectionby');
 
 const {
   github,
+  privateAccess,
   scanInterval,
   scanPersistentDriver
 } = require('c0nfig');
 
+const { getPingsterRepos } = require('./utils');
 const cacheDriver = require(`./drivers/${scanPersistentDriver}`);
 
 let timeout;
 let lastRunAt;
 
-function scan (token) {
-  console.log('scanning with token', token);
+function scan () {
+  console.log('scanning with personal access token', github.personalAccessToken);
 
   clearTimeout(timeout);
 
   // scan only if interval is added to config
   if (scanInterval) {
-    timeout = setTimeout(() => scan(token), scanInterval);
+    timeout = setTimeout(() => scan(), scanInterval);
   }
 
   return new Promise((resolve, reject) => {
-    if (!token) {
-      return reject('github token is missing');
+    if (!github.personalAccessToken) {
+      return reject('github pesronal access token is missing');
     }
 
-    const githubApi = new GithubAPI({ token });
-
-    // organizations are in higher priority
-    if (github.org) {
-      return githubApi
-        .getOrganization(github.org)
-        .getRepos()
-        .then(repos => _run(github.org, repos))
-        .catch(err => reject(err));
-    }
-
-    if (github.user) {
-      return githubApi
-        .getUser(github.user)
-        .listRepos()
-        .then(repos => _run(github.user, repos))
-        .catch(err => reject(err));
-    }
-
-    reject('github organization or user should be added to config');
+    getPingsterRepos(github.personalAccessToken)
+      .then(({repos, type}) => {
+        if (type === 'org') {
+          _run(github.org, repos);
+        } else if (type === 'user') {
+          _run(github.user, repos);
+        }
+      })
+      .catch(err => reject(err));
 
     // runner gets all repos of github org or user
     // checks default branch for pingster.yml config file
     // if it's present starts pingster test from config
     // saves test results into cache driver
     function _run (orgOrUser, repos) {
+      const githubApi = new GithubAPI({token: github.personalAccessToken});
+
       const repoRequests = repos.data.map(repo => {
         return done => {
           githubApi
@@ -129,16 +123,39 @@ function scan (token) {
   });
 }
 
-function list () {
-  return cacheDriver
-    .get()
-    .then(data => {
-      if (!data) {
-        return {repos: []};
+function list (userAccessToken) {
+  return new Promise((resolve, reject) => {
+    if (privateAccess) {
+      if (!userAccessToken) {
+        return reject('github user access token is missing');
       }
 
-      return data;
-    });
+      getPingsterRepos(userAccessToken)
+        .then(({ repos }) => {
+          cacheDriver.get().then(cacheData => {
+            const allRepos = cacheData.repos;
+            const userRepos = repos.data.map(r => {
+              return {fullName: r.full_name};
+            });
+
+            const accessedTestableRepos = intersectionBy(allRepos, userRepos, 'fullName');
+
+            resolve({repos: accessedTestableRepos || []});
+          });
+        })
+        .catch(err => reject(err));
+    } else {
+      cacheDriver.get()
+        .then(data => {
+          if (!data) {
+            return resolve({repos: []});
+          }
+
+          resolve(data);
+        })
+        .catch(err => reject(err));
+    }
+  });
 }
 
 module.exports = {

@@ -1,9 +1,12 @@
 module.exports = {
   port: process.env.NODE_PORT || process.env.PORT || 1985,
 
-  scanInterval: 1000 * 60 * 60, // (1 hour)
-  scanOnServerStart: true,
-  scanPersistentDriver: 'memory',
+  // require or not github authentication to see test results
+  privateAccess: process.env.PRIVATE_ACCESS,
+
+  scanInterval: process.env.SCAN_INTERVAL || 1000 * 60 * 60, // (1 hour)
+  scanOnServerStart: process.env.SCAN_ON_START || true,
+  scanPersistentDriver: process.env.SCAN_DRIVER || 'memory',
 
   github: {
     // github organization or user to scan
