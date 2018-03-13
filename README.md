@@ -18,8 +18,8 @@ npm run watch
 
 - `GET /auth/github` - login user with GitHub OAuth flow
 - `GET /auth/github/callback` - GitHub OAuth callback URL
-- `GET /list` _(requires GitHub user access token)_ - list last run repositories test results
-- `POST /rescan` _(requires GitHub user access token)_ - force rescan of the repositories and re-run the tests 
+- `GET /list` _(requires GitHub user access token in `privateAccess`)_ - list last run repositories test results
+- `POST /rescan` _(requires GitHub user access token in `privateAccess`)_ - force rescan of the repositories and re-run the tests 
 
 #### List response example
 
@@ -89,6 +89,9 @@ Most of the options are self-descriptive (configuration is powered by [c0nfig](h
 ```js
 module.exports = {
   port: process.env.NODE_PORT || process.env.PORT || 1985,
+  
+  // set to `true` if you want to validate user has proper access to repos
+  privateAccess: false,
 
   scanInterval: 1000 * 60 * 60, // msecs (1 hour)
   scanOnServerStart: true,
