@@ -47,7 +47,7 @@ app.post('/rescan',
     scanner.list(req.userAccessToken)
       .then(data => {
         if (!data.repos.length) {
-          return next({status: 403, message: 'github user has no repos access'});
+          return next({status: 403, error: 'github user has no repos access'});
         }
 
         scanner.scan()
