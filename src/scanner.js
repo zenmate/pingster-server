@@ -140,7 +140,9 @@ function list (userAccessToken) {
 
             const accessedTestableRepos = intersectionBy(allRepos, userRepos, 'fullName');
 
-            resolve({repos: accessedTestableRepos || []});
+            resolve(Object.assign({}, cacheData, {
+              repos: accessedTestableRepos || []
+            }));
           });
         })
         .catch(err => reject(err));

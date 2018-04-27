@@ -108,7 +108,8 @@ module.exports = {
     clientId: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
 
-    // pingster scanner github authentication
+    // organization scanner bot authentication
+    // make sure your user-bot has proper access to org
     personalAccessToken: process.env.GITHUB_PERSONAL_ACCESS_TOKEN
   }
 };
