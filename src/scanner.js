@@ -142,7 +142,7 @@ function list (userAccessToken) {
 
             resolve(Object.assign({}, cacheData, {
               repos: accessedTestableRepos || []
-            });
+            }));
           });
         })
         .catch(err => reject(err));
