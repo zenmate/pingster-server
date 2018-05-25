@@ -28,7 +28,7 @@
   "dependencies": {
     "append-query": "^2.0.1",
     "async": "^2.6.0",
-    "aws-sdk": "^2.201.0",
+    "aws-sdk": "^2.246.1",
     "c0nfig": "^0.2.2",
     "compression": "^1.7.1",
     "cookie-parser": "^1.4.3",
@@ -43,7 +43,7 @@
     "superagent": "^3.8.2"
   },
   "devDependencies": {
-    "eslint": "^4.16.0",
+    "eslint": "^4.19.1",
     "nodemon": "^1.14.11"
   }
 }
